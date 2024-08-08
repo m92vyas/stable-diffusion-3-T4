@@ -1,0 +1,4 @@
+diffusers==0.30.0
+torch==2.3.1+cu121
+transformers==4.42.4
+lark
