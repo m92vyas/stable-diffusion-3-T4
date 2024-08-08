@@ -1,7 +1,7 @@
 import gc, torch, random
 from transformers import CLIPTokenizer, CLIPTextModel, CLIPTextModelWithProjection, AutoTokenizer, T5EncoderModel
 from diffusers import StableDiffusion3Pipeline
-from extended_embeddings_sd3 import get_weighted_text_embeddings_sd3
+from sd3_t4.extended_embeddings_sd3 import get_weighted_text_embeddings_sd3
 
 
 def clear_memory():

@@ -22,7 +22,7 @@
 # from prompt_parser import parse_prompt_attention
 import torch
 from transformers import CLIPTokenizer, CLIPTextModel, CLIPTextModelWithProjection, AutoTokenizer, T5EncoderModel
-from prompt_parser import parse_prompt_attention
+from sd3_t4.prompt_parser import parse_prompt_attention
 
 def get_prompts_tokens_with_weights(
     clip_tokenizer: CLIPTokenizer
