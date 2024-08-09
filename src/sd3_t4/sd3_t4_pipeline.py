@@ -159,17 +159,18 @@ def get_image(prompt_embeds, prompt_neg_embeds, pooled_prompt_embeds, negative_p
 
   #generator = torch.Generator(device='cuda').manual_seed(seed)
   clear_memory()
-  image = pipe(
-      prompt_embeds                   = prompt_embeds, negative_prompt_embeds        = prompt_neg_embeds
-      , pooled_prompt_embeds          = pooled_prompt_embeds
-      , negative_pooled_prompt_embeds = negative_pooled_prompt_embeds
-      , num_inference_steps           = num_inference_steps
-      , generator                     = generator
-      , guidance_scale                = guidance_scale
-      , max_sequence_length           = max_sequence_length
-      , timesteps=timesteps, latents=latents, output_type=output_type, return_dict=return_dict, joint_attention_kwargs=joint_attention_kwargs
-      , clip_skip=clip_skip, callback_on_step_end=callback_on_step_end, callback_on_step_end_tensor_inputs=callback_on_step_end_tensor_inputs,num_images_per_prompt=num_images_per_prompt
-  ).images
+  with torch.no_grad():
+	  image = pipe(
+	      prompt_embeds                   = prompt_embeds, negative_prompt_embeds        = prompt_neg_embeds
+	      , pooled_prompt_embeds          = pooled_prompt_embeds
+	      , negative_pooled_prompt_embeds = negative_pooled_prompt_embeds
+	      , num_inference_steps           = num_inference_steps
+	      , generator                     = generator
+	      , guidance_scale                = guidance_scale
+	      , max_sequence_length           = max_sequence_length
+	      , timesteps=timesteps, latents=latents, output_type=output_type, return_dict=return_dict, joint_attention_kwargs=joint_attention_kwargs
+	      , clip_skip=clip_skip, callback_on_step_end=callback_on_step_end, callback_on_step_end_tensor_inputs=callback_on_step_end_tensor_inputs,num_images_per_prompt=num_images_per_prompt
+	  ).images
   clear_memory()
   return image
 
