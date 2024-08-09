@@ -44,7 +44,8 @@ load_sd3_t4_pipeline() # it will take about 4 minutes to fully load the pipeline
 ```python
 prompt = <your positive prompt>
 negative_prompt = <your negative prompt>
-generated_image = generate_sd3_t4_image(prompt, negative_prompt ,num_inference_steps=28, guidance_scale=7) # you can add other sd3 parameters 
+generated_image = generate_sd3_t4_image(prompt, negative_prompt ,num_inference_steps=28, guidance_scale=7) # you can add other sd3 parameters
+generated_image = generated_image[0] # if number of image generated is one
 ```
 
 Note: The pipeline works well for lengthy prompts / long prompts but for very long prompts it can result in OOM error.
