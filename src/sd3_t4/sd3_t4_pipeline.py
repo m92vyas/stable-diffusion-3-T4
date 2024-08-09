@@ -196,8 +196,8 @@ def load_sd3_t4_pipeline(model_path = "stabilityai/stable-diffusion-3-medium-dif
   clear_memory()
   get_encoders(model_path)
   get_tranformer_vae(model_path)
-  prompt_warmup = 'star trek deep space 9'
-  neg_prompt_warmup = 'star wars sequel'
+  prompt_warmup = "gold ring with diamond with two interlocking bands made of polished yellow gold, each with a smooth, rounded profile that tapers slightly towards the back for comfort. a central floral cluster of diamonds, featuring a larger round diamond surrounded by smaller round diamonds arranged in a petal-like formation, creating a blooming effect. a halo of smaller diamonds encircling the central floral cluster, enhancing the overall sparkle and creating a sense of depth. the base of the ring features a smooth, polished finish that complements the intricate diamond settings, ensuring a seamless transition from the floral designs to the band."
+  neg_prompt_warmup = ""
   generator = torch.Generator(device='cuda').manual_seed(random.randint(0,1e6))
   _ = generate_sd3_t4_image(prompt_warmup, neg_prompt_warmup, num_inference_steps=1, guidance_scale=7, generator=generator)
   
