@@ -12,7 +12,7 @@ setup(
     , keywords         = 'stable diffusion 3 on colab t4 gpu'
     , install_requires = [
                             'diffusers==0.30.0',
-                            'torch==2.3.1+cu121',
+                            'torch',
                             'transformers==4.42.4',
                             'lark',
                          ]
