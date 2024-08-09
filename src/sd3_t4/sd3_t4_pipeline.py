@@ -7,24 +7,11 @@ from sd3_t4.extended_embeddings_sd3 import get_weighted_text_embeddings_sd3
 def clear_memory():
   gc.collect()
   torch.cuda.empty_cache()
-
-# global tokenizer_1, text_encoder_1, tokenizer_2, text_encoder_2, tokenizer_3, text_encoder_3, pipe, modules_list_transformer, modules_list_text_encoder_3
-
-# tokenizer_1 = None
-# text_encoder_1 = None
-# tokenizer_2 = None
-# text_encoder_2 = None
-# tokenizer_3 = None
-# text_encoder_3 = None
-# pipe=None
-# modules_list_transformer=[]
-# modules_list_text_encoder_3=[]
+	
 
 def get_encoders(model_path = "stabilityai/stable-diffusion-3-medium-diffusers"):
   '''downloading all the encoders and tokenizer and loading them in gpu'''
   clear_memory()
-#  model_id = "stabilityai/stable-diffusion-3-medium-diffusers"
-
   global tokenizer_1, text_encoder_1, tokenizer_2, text_encoder_2, tokenizer_3, text_encoder_3, modules_list_text_encoder_3
 
   tokenizer_1 = CLIPTokenizer.from_pretrained(
@@ -82,8 +69,8 @@ def get_encoders(model_path = "stabilityai/stable-diffusion-3-medium-diffusers")
 
 def get_tranformer_vae(model_path = "stabilityai/stable-diffusion-3-medium-diffusers"):
   '''downloading the pipeline without encoders and tokenizers and loading them in cpu'''
+  clear_memory()
   global pipe, modules_list_transformer
- # model_path = "stabilityai/stable-diffusion-3-medium-diffusers"
   pipe = StableDiffusion3Pipeline.from_pretrained(
         model_path,
         torch_dtype=torch.float16,
@@ -100,6 +87,7 @@ def get_tranformer_vae(model_path = "stabilityai/stable-diffusion-3-medium-diffu
     modules_list_transformer.append(modl)
   modules_list_transformer = modules_list_transformer[::-1]
   clear_memory()
+
 
 def get_text_embeddings(prompt, neg_prompt):
   (
@@ -125,12 +113,9 @@ def get_text_embeddings(prompt, neg_prompt):
 def move_transformer_modules(device, last_layers):
 
   if last_layers=='all':
-    pipe.to(device) #cuda 400
+    pipe.to(device)
   else:
-    # modules_list=[]
     a=0
-    # for modl in pipe.transformer.modules():
-      # modules_list.append(modl)
     for i in modules_list_transformer:
       a=a+1
       if a<=last_layers:
@@ -141,14 +126,11 @@ def move_transformer_modules(device, last_layers):
 
 def move_encoder3_modules(device, last_layers):
 
-  # modules_list=[]
   a=0
-  # for modl in text_encoder_3.modules():
-    # modules_list.append(modl)
   for i in modules_list_text_encoder_3:
     a=a+1
     if a<=last_layers:
-      i.to(device) #cpu 250
+      i.to(device)
   clear_memory()
 
 
@@ -157,11 +139,11 @@ def get_image(prompt_embeds, prompt_neg_embeds, pooled_prompt_embeds, negative_p
               timesteps=None, latents=None, output_type='pil', return_dict=True, joint_attention_kwargs= None,
               clip_skip=None, callback_on_step_end=None, callback_on_step_end_tensor_inputs=['latents'], max_sequence_length=512):
 
-  #generator = torch.Generator(device='cuda').manual_seed(seed)
   clear_memory()
   with torch.no_grad():
 	  image = pipe(
-	      prompt_embeds                   = prompt_embeds, negative_prompt_embeds        = prompt_neg_embeds
+	        prompt_embeds                 = prompt_embeds
+	      , negative_prompt_embeds        = prompt_neg_embeds
 	      , pooled_prompt_embeds          = pooled_prompt_embeds
 	      , negative_pooled_prompt_embeds = negative_pooled_prompt_embeds
 	      , num_inference_steps           = num_inference_steps
