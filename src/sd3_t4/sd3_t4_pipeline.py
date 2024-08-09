@@ -158,6 +158,7 @@ def get_image(prompt_embeds, prompt_neg_embeds, pooled_prompt_embeds, negative_p
               clip_skip=None, callback_on_step_end=None, callback_on_step_end_tensor_inputs=['latents'], max_sequence_length=512):
 
   #generator = torch.Generator(device='cuda').manual_seed(seed)
+  clear_memory()
   image = pipe(
       prompt_embeds                   = prompt_embeds, negative_prompt_embeds        = prompt_neg_embeds
       , pooled_prompt_embeds          = pooled_prompt_embeds
@@ -178,15 +179,15 @@ def generate_sd3_t4_image(prompt, neg_prompt='', num_inference_steps=28, guidanc
                           
   prompt_embeds, prompt_neg_embeds, pooled_prompt_embeds, negative_pooled_prompt_embeds = get_text_embeddings(prompt, neg_prompt)
   move_transformer_modules(device='cuda', last_layers=400)
-  move_encoder3_modules(device='cpu', last_layers=300) #250
+  move_encoder3_modules(device='cpu', last_layers=250)
   move_transformer_modules(device='cuda', last_layers='all')
   image = get_image(prompt_embeds, prompt_neg_embeds, pooled_prompt_embeds, negative_pooled_prompt_embeds,
            	     num_inference_steps=num_inference_steps, guidance_scale=guidance_scale, generator=generator, max_sequence_length= max_sequence_length,
            	     timesteps=timesteps, latents=latents, output_type=output_type, return_dict=return_dict, joint_attention_kwargs=joint_attention_kwargs,
            	     clip_skip=clip_skip, callback_on_step_end=callback_on_step_end, callback_on_step_end_tensor_inputs=callback_on_step_end_tensor_inputs,num_images_per_prompt=num_images_per_prompt)
-  move_encoder3_modules(device='cuda', last_layers=200) #150
+  move_encoder3_modules(device='cuda', last_layers=150)
   move_transformer_modules(device='cpu', last_layers='all')
-  move_encoder3_modules(device='cuda', last_layers=300) #250
+  move_encoder3_modules(device='cuda', last_layers=250) 
   return image
 
 
