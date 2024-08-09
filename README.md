@@ -1,4 +1,4 @@
-# Run full Stable Diffusion 3 model on colab or T4 GPU with extended context length
+# Run full Stable Diffusion 3 model on colab or T4 GPU with extended context length and prompt weighing
 
 The stable diffusion 3 [Hugging Face page](https://huggingface.co/docs/diffusers/main/en/api/pipelines/stable_diffusion/stable_diffusion_3#memory-optimisations-for-sd3) states
 
@@ -11,7 +11,7 @@ Good for us that colab or the T4 gpu has enough gpu memory to load all the three
 So, the basic steps to prepare the pipeline will look like:
 - load all the 3 text encoders with their tokenizer on the gpu.
 - load the transformer and vae on the cpu.
-- get text embeddings as all the encoders models are on gpu (with extended context length which allows to encode prompts with more than the 77 token limit of the CLIP encoders)
+- get text embeddings as all the encoders models are on gpu (with extended context length which allows to encode prompts with more than the 77 token limit of the CLIP encoders and prompt weighing)
 - to save time only move enough modules from text encoder 3 (T5) to cpu and so that the transformer and vae can be loaded onto the gpu.
 - complete the image generation process.
 - move text encoder 3 modules back to gpu and transformer, vae back to cpu to start a new inference step. 
@@ -20,7 +20,7 @@ The code in this repository transfers modules between devices in batches to avoi
 
 For implementing extended context length with prompt weighing i have taken the code from https://github.com/xhinker/sd_embed with some modifications to reduce memory usage like using torch.no_grad()
 
-To add weights to your prompts refer to the above given repository. So now we can run the full stable diffusion 3 model with long prompts with weighing.
+To add weights to your prompts refer to the above given repository. So now we can run the full stable diffusion 3 model with long prompts and weighing.
 
 You will need minimum 12.5 gb of cpu ram which is provoded in colab and also on T4 machine like aws g4.dn.xlarge (16 gb cpu)
 
@@ -47,7 +47,7 @@ negative_prompt = <your negative prompt>
 generated_image = generate_sd3_t4_image(prompt, negative_prompt ,num_inference_steps=28, guidance_scale=7) # you can add other sd3 parameters 
 ```
 
-Note: The pipeline works well for lengthy prompts / long prompts but for very long prompts can result in OOM error.
+Note: The pipeline works well for lengthy prompts / long prompts but for very long prompts it can result in OOM error.
 In such cases try running the pipeline with little lower context length as warm up steps and try inferencing again using your long prompt.
 
 Consider giving a star if this repo was of any help to you.
