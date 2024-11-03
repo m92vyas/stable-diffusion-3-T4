@@ -51,4 +51,7 @@ generated_image = generated_image[0] # if number of image generated is one
 Note: The pipeline works well for lengthy prompts / long prompts but for very long prompts it can result in OOM error.
 In such cases try running the pipeline with little lower context length as warm up steps and try inferencing again using your long prompt.
 
-Consider giving a star if this repo was of any help to you.
+#### Support & Feedback:
+- Share and consider giving a Star if you found this repo helpful.
+- I am open to work and actively looking for an remote job opportunity: maharishi92vyas@gmail.com / https://www.linkedin.com/in/maharishi-vyas
+- Open any issues or feature request.
