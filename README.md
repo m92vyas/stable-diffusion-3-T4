@@ -6,7 +6,7 @@ _"SD3 uses three text encoders, one of which is the very large T5-XXL model. Thi
 
 and gives some options like using quantize version of the T5 text encoder or dropping it. CPU offload does not work in the free version of colab and sequential offload to cpu takes long time to generate the image.
 
-Good for us that colab or the T4 gpu has enough gpu memory to load all the three text encoders at once without any quantization and get text embeddings and then empty the gpu space enough to load the transformer and vae and perform next steps for the image generation.
+Good for us that colab or the T4 gpu has enough gpu memory to load all the three text encoders at once without any quantization and get text embeddings and then empty the gpu space enough to load the transformer and vae to perform next steps for the image generation.
 
 So, the basic steps to prepare the pipeline will look like:
 - load all the 3 text encoders with their tokenizer on the gpu.
@@ -22,7 +22,7 @@ For implementing extended context length with prompt weighing i have taken the c
 
 To add weights to your prompts refer to the above given repository. So now we can run the full stable diffusion 3 model with long prompts and weighing.
 
-You will need minimum 12.5 gb of cpu ram which is provoded in colab and also on T4 machine like aws g4.dn.xlarge (16 gb cpu)
+You will need minimum 12.5 gb of cpu ram which is provided by colab and also on T4 machine like aws g4.dn.xlarge (16 gb cpu)
 
 #### Installation
 
